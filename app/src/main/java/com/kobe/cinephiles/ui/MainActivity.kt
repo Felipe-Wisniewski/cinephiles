@@ -1,7 +1,8 @@
-package com.kobe.cinephiles
+package com.kobe.cinephiles.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.kobe.cinephiles.R
 
 class MainActivity : AppCompatActivity() {
 
