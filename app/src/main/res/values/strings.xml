@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Cinephiles</string>
+
+    <string name="text_format_vote_average">%10.1f</string>
+    <string name="description_img_star">star image</string>
+    <string name="description_img_movie">movie poster</string>
 </resources>
