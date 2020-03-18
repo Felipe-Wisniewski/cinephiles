@@ -8,11 +8,13 @@ import com.kobe.cinephiles.model.GenreResults
 import com.kobe.cinephiles.model.UpcomingMovie
 import com.kobe.cinephiles.model.UpcomingResults
 import com.kobe.cinephiles.repository.retrofit.HttpService
+import com.kobe.cinephiles.repository.room.CineDao
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MovieRepositoryImpl(private val service: HttpService) : MovieRepository {
+class MovieRepositoryImpl(private val service: HttpService,
+                          private val cineDao: CineDao) : MovieRepository {
 
     override fun getMoviesGenre(): LiveData<List<Genre>> {
         val data = MutableLiveData<List<Genre>>()

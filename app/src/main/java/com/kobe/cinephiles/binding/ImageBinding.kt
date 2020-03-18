@@ -8,7 +8,7 @@ import com.squareup.picasso.Picasso
 object ImageBinding {
 
     @JvmStatic
-    @BindingAdapter("app:imageUrl")
+    @BindingAdapter("app:imgUrl")
     fun setImageUrl(imageView: ImageView, url: String?) {
 
         var completeUrl = "https://image.tmdb.org/t/p/w500"

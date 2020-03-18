@@ -1,4 +1,4 @@
-package com.kobe.cinephiles.ui.upcoming
+package com.kobe.cinephiles.view.upcoming
 
 import android.view.LayoutInflater
 import android.view.View

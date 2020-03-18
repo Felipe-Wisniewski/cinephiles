@@ -20,7 +20,7 @@
             android:layout_width="90dp"
             android:layout_height="120dp"
             android:scaleType="centerInside"
-            app:imageUrl="@{movie.poster_path}"
+            app:imgUrl="@{movie.poster_path}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/txtTitleMovie"

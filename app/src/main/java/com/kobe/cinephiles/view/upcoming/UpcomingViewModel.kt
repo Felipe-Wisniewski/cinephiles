@@ -1,4 +1,4 @@
-package com.kobe.cinephiles.ui.upcoming
+package com.kobe.cinephiles.view.upcoming
 
 import androidx.lifecycle.*
 import androidx.paging.LivePagedListBuilder

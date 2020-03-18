@@ -12,23 +12,21 @@ import retrofit2.Response
 class UpcomingDataSource(private val service: HttpService) : PageKeyedDataSource<Int, UpcomingMovie>() {
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, UpcomingMovie>) {
-        val numberOfItems = params.requestedLoadSize
-        createPaging(1, 2, numberOfItems, callback, null)
+        createPaging(1, 2, callback, null)
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, UpcomingMovie>) {
         val page = params.key
-        val numberOfItems = params.requestedLoadSize
-        createPaging(page, page + 1, numberOfItems, null, callback)
+        createPaging(page, page + 1, null, callback)
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, UpcomingMovie>) {
         val page = params.key
-        val numberOfItems = params.requestedLoadSize
-        createPaging(page, page - 1, numberOfItems, null, callback)
+        createPaging(page, page - 1, null, callback)
     }
 
-    private fun createPaging(requestPage: Int, adjacentPage: Int, requestedLoadSize: Int,
+    private fun createPaging(requestPage: Int,
+                             adjacentPage: Int,
                              initialCallback: LoadInitialCallback<Int, UpcomingMovie>?,
                              callback: LoadCallback<Int, UpcomingMovie>?) {
 
