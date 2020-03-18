@@ -4,10 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.kobe.cinephiles.model.Genre
-import com.kobe.cinephiles.model.Movie
+import com.kobe.cinephiles.model.UpcomingMovie
 
-@Database(entities = [Movie::class, Genre::class], version = DATABASE_VERSION)
+@Database(entities = [UpcomingMovie::class, Genre::class], version = DATABASE_VERSION)
+@TypeConverters(Converters::class)
 abstract class CineDatabase : RoomDatabase() {
 
     abstract fun cineDao(): CineDao

@@ -1,5 +1,6 @@
 package com.kobe.cinephiles.di
 
+import com.kobe.cinephiles.repository.MovieRepository
 import com.kobe.cinephiles.repository.MovieRepositoryImpl
 import com.kobe.cinephiles.repository.paging.UpcomingDataSourceFactory
 import com.kobe.cinephiles.repository.retrofit.HttpServiceImpl
@@ -13,7 +14,7 @@ val appModule = module {
     single {
         val retrofit = HttpServiceImpl.getService()
         val cineDao = CineDatabase.getDataBase(context = get()).cineDao()
-        MovieRepositoryImpl(service = retrofit, cineDao = cineDao)
+        MovieRepositoryImpl(service = retrofit, cineDao = cineDao) as MovieRepository
     }
 
     viewModel {

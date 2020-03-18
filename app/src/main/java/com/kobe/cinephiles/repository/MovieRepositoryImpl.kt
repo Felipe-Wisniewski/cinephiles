@@ -16,6 +16,22 @@ import retrofit2.Response
 class MovieRepositoryImpl(private val service: HttpService,
                           private val cineDao: CineDao) : MovieRepository {
 
+    override fun saveFavorite(movie: UpcomingMovie) {
+        cineDao.saveFavorite(movie)
+    }
+
+    override fun loadFavorites(): LiveData<List<UpcomingMovie>> {
+        return cineDao.loadFavorite()
+    }
+
+    override fun isFavorite(movie: UpcomingMovie): Boolean {
+        return cineDao.movieById(movie.id).isNotEmpty()
+    }
+
+    override fun deleteFavorite(movie: UpcomingMovie) {
+        cineDao.deleteFavorite(movie)
+    }
+
     override fun getMoviesGenre(): LiveData<List<Genre>> {
         val data = MutableLiveData<List<Genre>>()
 

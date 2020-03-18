@@ -4,10 +4,10 @@ import androidx.lifecycle.*
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.kobe.cinephiles.model.UpcomingMovie
-import com.kobe.cinephiles.repository.MovieRepositoryImpl
+import com.kobe.cinephiles.repository.MovieRepository
 import com.kobe.cinephiles.repository.paging.UpcomingDataSourceFactory
 
-class UpcomingViewModel(private val repository: MovieRepositoryImpl, sourceFactory: UpcomingDataSourceFactory) : ViewModel() {
+class UpcomingViewModel(private val repository: MovieRepository, val sourceFactory: UpcomingDataSourceFactory) : ViewModel() {
 
     var moviesList: LiveData<PagedList<UpcomingMovie>>
 
@@ -25,5 +25,16 @@ class UpcomingViewModel(private val repository: MovieRepositoryImpl, sourceFacto
 
     }
 
+    val moviesFavorites: LiveData<List<UpcomingMovie>> = repository.loadFavorites()
 
+
+    fun saveFavorite(movie: UpcomingMovie) {
+        repository.saveFavorite(movie)
+    }
+
+    fun isFavorite(movie: UpcomingMovie): Boolean = repository.isFavorite(movie)
+
+    fun deleteFavorite(movie: UpcomingMovie) {
+        repository.deleteFavorite(movie)
+    }
 }

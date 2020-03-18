@@ -1,5 +1,6 @@
 package com.kobe.cinephiles.binding
 
+import android.util.Log
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.kobe.cinephiles.R
@@ -17,8 +18,11 @@ object ImageBinding {
             completeUrl += url
         }
 
+        Log.d("FLMWG", completeUrl)
+
         Picasso.get()
             .load(completeUrl)
+            .error(R.drawable.image_not_found)
             .placeholder(R.drawable.ic_image_error)
             .into(imageView)
 

@@ -2,6 +2,7 @@ package com.kobe.cinephiles.view.upcoming
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.*
@@ -20,6 +21,7 @@ class UpcomingListWebFragment : UpcomingListBaseFragment() {
 
         upcomingAdapter = UpcomingAdapter(this::onItemClick)
         setupAdapter()
+
         loadMovies()
     }
 

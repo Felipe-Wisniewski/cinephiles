@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         tabs.setupWithViewPager(viewPager)
     }
 
-    inner class ViewPagerAdapter(fm: FragmentManager): FragmentPagerAdapter(fm) {
+    inner class ViewPagerAdapter(fm: FragmentManager): FragmentPagerAdapter(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
         override fun getItem(position: Int): Fragment {
             return if (position == 0) {
