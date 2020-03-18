@@ -1,4 +1,4 @@
 package com.kobe.cinephiles.model
 
-data class MovieGenre(val id: Int,
-                      val name: String)
+data class Genre(val id: Int,
+                 val name: String)

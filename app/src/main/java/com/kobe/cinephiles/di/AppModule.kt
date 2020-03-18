@@ -1,6 +1,7 @@
 package com.kobe.cinephiles.di
 
 import com.kobe.cinephiles.repository.MovieRepositoryImpl
+import com.kobe.cinephiles.repository.paging.UpcomingDataSourceFactory
 import com.kobe.cinephiles.repository.retrofit.HttpServiceImpl
 import com.kobe.cinephiles.ui.upcoming.UpcomingViewModel
 import org.koin.android.viewmodel.dsl.viewModel
@@ -14,7 +15,12 @@ val appModule = module {
     }
 
     viewModel {
-        UpcomingViewModel(repository = get())
+        UpcomingViewModel(repository = get(), sourceFactory = get())
+    }
+
+    factory {
+        val retrofit = HttpServiceImpl.getService()
+        UpcomingDataSourceFactory(service = retrofit)
     }
 
 }
