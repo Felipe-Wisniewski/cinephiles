@@ -9,8 +9,8 @@ import com.kobe.cinephiles.R
 import com.kobe.cinephiles.databinding.UpcomingItemBinding
 import com.kobe.cinephiles.model.UpcomingMovie
 
-class UpcomingFavAdapter(private var movies: List<UpcomingMovie>,
-                         private val onItemClick: (UpcomingMovie?) -> Unit) : RecyclerView.Adapter<UpcomingFavAdapter.VH>() {
+class UpcomingAdapterFav(private var movies: List<UpcomingMovie>,
+                         private val onItemClick: (UpcomingMovie?) -> Unit) : RecyclerView.Adapter<UpcomingAdapterFav.VH>() {
 
     fun addMovies(newMovies: List<UpcomingMovie>) {
         movies = newMovies

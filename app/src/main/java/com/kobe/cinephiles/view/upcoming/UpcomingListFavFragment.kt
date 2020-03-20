@@ -2,10 +2,8 @@ package com.kobe.cinephiles.view.upcoming
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.paging.PagedList
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,16 +12,15 @@ import com.kobe.cinephiles.model.UpcomingMovie
 import kotlinx.android.synthetic.main.fragment_upcoming_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class UpcomingListDbFragment : UpcomingListBaseFragment() {
+class UpcomingListFavFragment : UpcomingListBaseFragment() {
 
     private val viewModel: UpcomingViewModel by viewModel()
-    lateinit var favAdapter: UpcomingFavAdapter
     private var movies = mutableListOf<UpcomingMovie>()
+    private val favAdapter = UpcomingAdapterFav(movies, this::onItemClick)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        favAdapter = UpcomingFavAdapter(movies, this::onItemClick)
         setupAdapter()
         loadMovies()
     }
@@ -49,7 +46,7 @@ class UpcomingListDbFragment : UpcomingListBaseFragment() {
     }
 
     private fun loadMovies() {
-        viewModel.moviesFavorites.observe(viewLifecycleOwner, Observer { movies ->
+        viewModel.getMoviesFavorites().observe(viewLifecycleOwner, Observer { movies ->
             favAdapter.addMovies(movies)
         })
     }

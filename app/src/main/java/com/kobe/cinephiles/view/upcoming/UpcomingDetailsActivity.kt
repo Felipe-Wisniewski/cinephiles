@@ -2,6 +2,7 @@ package com.kobe.cinephiles.view.upcoming
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -20,6 +21,7 @@ class UpcomingDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUpcomingDetailsBinding
     private val viewModel: UpcomingViewModel by viewModel()
     private var movie: UpcomingMovie? = null
+    private var isFavorite: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,61 +44,48 @@ class UpcomingDetailsActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     private fun initTitleBar() {
         setSupportActionBar(toolbar)
 
-        if (appBar != null) {
-            if (appBar?.layoutParams is CoordinatorLayout.LayoutParams) {
-                val lp = appBar?.layoutParams as CoordinatorLayout.LayoutParams
+        if (appBarLayout != null) {
+
+            if (appBarLayout?.layoutParams is CoordinatorLayout.LayoutParams) {
+                val lp = appBarLayout?.layoutParams as CoordinatorLayout.LayoutParams
                 lp.height = resources.displayMetrics.widthPixels
             }
+
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (collapsingToolbar != null) {
             supportActionBar?.setDisplayShowTitleEnabled(true)
-            Log.d("FLMWG","collapsing true")
 
         } else {
             supportActionBar?.setDisplayShowTitleEnabled(false)
-            Log.d("FLMWG","collapsing false")
         }
-    }
-
-    private fun toggleFavorite() {
-        val isFavorite = viewModel.isFavorite(movie!!)
-
-        if (isFavorite) {
-            viewModel.deleteFavorite(movie!!)
-
-        } else {
-            viewModel.saveFavorite(movie!!)
-
-        }
-
-        updateFab()
     }
 
     private fun updateFab() {
-        val isFavorite = viewModel.isFavorite(movie!!)
+        isFavorite = viewModel.isFavorite(movie!!)
 
         val icon = getFabIcon(isFavorite)
         fabFavorite.setImageDrawable(icon)
     }
 
+    private fun toggleFavorite() {
+        if (isFavorite) viewModel.deleteFavorite(movie!!) else viewModel.saveFavorite(movie!!)
+        updateFab()
+    }
+
     private fun getFabIcon(favorite: Boolean): Drawable? {
         return ContextCompat.getDrawable(this,
-            if (favorite) {
-                R.drawable.ic_favorite_check
-            } else {
-                R.drawable.ic_favorite_uncheck
-            })
+            if (favorite) R.drawable.ic_favorite_check else R.drawable.ic_favorite_uncheck)
     }
 
     companion object {

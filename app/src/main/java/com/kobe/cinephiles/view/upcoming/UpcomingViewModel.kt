@@ -7,12 +7,14 @@ import com.kobe.cinephiles.model.UpcomingMovie
 import com.kobe.cinephiles.repository.MovieRepository
 import com.kobe.cinephiles.repository.paging.UpcomingDataSourceFactory
 
-class UpcomingViewModel(private val repository: MovieRepository, val sourceFactory: UpcomingDataSourceFactory) : ViewModel() {
+class UpcomingViewModel(private val repository: MovieRepository,
+                        val sourceFactory: UpcomingDataSourceFactory) : ViewModel() {
 
-    var moviesList: LiveData<PagedList<UpcomingMovie>>
+    private val moviesUpcoming: LiveData<PagedList<UpcomingMovie>>
+
+    private val moviesFavorites: LiveData<List<UpcomingMovie>> = repository.loadFavorites()
 
     init {
-
         val config = PagedList.Config.Builder()
             .setPageSize(20)
             .setInitialLoadSizeHint(20)
@@ -20,13 +22,17 @@ class UpcomingViewModel(private val repository: MovieRepository, val sourceFacto
             .setEnablePlaceholders(false)
             .build()
 
-        moviesList = LivePagedListBuilder(sourceFactory, config)
+        moviesUpcoming = LivePagedListBuilder(sourceFactory, config)
             .build()
-
     }
 
-    val moviesFavorites: LiveData<List<UpcomingMovie>> = repository.loadFavorites()
+    fun getMoviesUpcoming(): LiveData<PagedList<UpcomingMovie>> {
+        return moviesUpcoming
+    }
 
+    fun getMoviesFavorites(): LiveData<List<UpcomingMovie>> {
+        return moviesFavorites
+    }
 
     fun saveFavorite(movie: UpcomingMovie) {
         repository.saveFavorite(movie)

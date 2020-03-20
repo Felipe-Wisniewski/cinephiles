@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.kobe.cinephiles.R
-import com.kobe.cinephiles.view.upcoming.UpcomingListDbFragment
+import com.kobe.cinephiles.view.upcoming.UpcomingListFavFragment
 import com.kobe.cinephiles.view.upcoming.UpcomingListWebFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             return if (position == 0) {
                 UpcomingListWebFragment()
             } else {
-                UpcomingListDbFragment()
+                UpcomingListFavFragment()
             }
         }
 

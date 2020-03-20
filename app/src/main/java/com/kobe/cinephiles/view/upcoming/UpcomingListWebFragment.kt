@@ -14,14 +14,14 @@ class UpcomingListWebFragment : UpcomingListBaseFragment() {
 
     private val viewModel: UpcomingViewModel by viewModel()
 
-    lateinit var upcomingAdapter: UpcomingAdapter
+    private val upcomingAdapter = UpcomingAdapterWeb(this::onItemClick)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        upcomingAdapter = UpcomingAdapter(this::onItemClick)
-        setupAdapter()
+        swpRefresh.isEnabled = false
 
+        setupAdapter()
         loadMovies()
     }
 
@@ -46,7 +46,9 @@ class UpcomingListWebFragment : UpcomingListBaseFragment() {
     }
 
     private fun loadMovies() {
-        viewModel.moviesList.observe(viewLifecycleOwner, Observer { movies ->
+        viewModel.getMoviesUpcoming().observe(viewLifecycleOwner, Observer { movies ->
+            Log.d("FLMWG", "movies.isDetached - ${movies.isDetached}")
+            Log.d("FLMWG", "movies.isImmutable - ${movies.isImmutable}")
             upcomingAdapter.submitList(movies)
         })
     }
@@ -54,5 +56,4 @@ class UpcomingListWebFragment : UpcomingListBaseFragment() {
     private fun onItemClick(movie: UpcomingMovie?) {
         UpcomingDetailsActivity.start(this.requireContext(), movie)
     }
-
 }

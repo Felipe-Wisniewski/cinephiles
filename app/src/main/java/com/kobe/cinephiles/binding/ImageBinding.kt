@@ -14,16 +14,19 @@ object ImageBinding {
 
         var completeUrl = "https://image.tmdb.org/t/p/w500"
 
+        val errorImage = if (imageView.id == R.id.imgUpcomingPosterItem)
+            R.drawable.img_not_available_poster
+        else
+            R.drawable.img_not_available_backdrop
+
         if (url != null) {
             completeUrl += url
         }
 
-        Log.d("FLMWG", completeUrl)
-
         Picasso.get()
             .load(completeUrl)
-            .error(R.drawable.image_not_found)
-            .placeholder(R.drawable.ic_image_error)
+            .error(errorImage)
+            .placeholder(R.drawable.ic_sync_black)
             .into(imageView)
 
     }

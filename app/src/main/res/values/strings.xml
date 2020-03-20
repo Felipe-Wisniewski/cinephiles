@@ -3,6 +3,8 @@
     <string name="tab_upcoming">Upcoming</string>
     <string name="tab_favorites">Favorites</string>
     <string name="text_format_vote_average">%10.1f</string>
+    <string name="text_format_vote_count">(%d)</string>
+    <string name="text_format_release_date">Release: %s</string>
     <string name="description_img_star">star image</string>
     <string name="description_img_movie">movie poster</string>
 </resources>

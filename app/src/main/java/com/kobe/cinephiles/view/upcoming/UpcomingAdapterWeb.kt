@@ -11,7 +11,7 @@ import com.kobe.cinephiles.R
 import com.kobe.cinephiles.databinding.UpcomingItemBinding
 import com.kobe.cinephiles.model.UpcomingMovie
 
-class UpcomingAdapter(private val onItemClick: (UpcomingMovie?) -> Unit) : PagedListAdapter<UpcomingMovie, UpcomingAdapter.VH>(movieDiff) {
+class UpcomingAdapterWeb(private val onItemClick: (UpcomingMovie?) -> Unit) : PagedListAdapter<UpcomingMovie, UpcomingAdapterWeb.VH>(movieDiff) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.upcoming_item, parent, false)
@@ -26,6 +26,10 @@ class UpcomingAdapter(private val onItemClick: (UpcomingMovie?) -> Unit) : Paged
 
             if (currentMovie?.poster_path == null) {
                 currentMovie?.poster_path = ""
+            }
+
+            if (currentMovie?.backdrop_path == null) {
+                currentMovie?.backdrop_path = currentMovie?.poster_path!!
             }
 
             movie = currentMovie
