@@ -8,29 +8,37 @@ import androidx.room.TypeConverters
 import com.kobe.cinephiles.model.Genre
 import com.kobe.cinephiles.model.UpcomingMovie
 
-@Database(entities = [UpcomingMovie::class, Genre::class], version = DATABASE_VERSION)
+@Database(entities = [UpcomingMovie::class, Genre::class],
+    version = DATABASE_VERSION, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class CineDatabase : RoomDatabase() {
 
-    abstract fun cineDao(): CineDao
+    abstract val cineDao: CineDao
 
     companion object {
-        private var instance: CineDatabase? = null
 
-        fun getDataBase(context: Context): CineDatabase {
-            if (instance == null) {
-                instance = Room.databaseBuilder(context.applicationContext,
-                    CineDatabase::class.java,
-                    DATABASE_NAME)
-                    .allowMainThreadQueries()
-                    .build()
+        @Volatile
+        private var INSTANCE: CineDatabase? = null
+
+        fun getInstance(context: Context): CineDatabase {
+
+            synchronized(this) {
+
+                var instance = INSTANCE
+
+                if (instance == null) {
+
+                    instance = Room.databaseBuilder(context.applicationContext,
+                            CineDatabase::class.java,
+                            DATABASE_NAME)
+                        .allowMainThreadQueries()
+                        .build()
+
+                    INSTANCE = instance
+                }
+
+                return instance
             }
-
-            return instance as CineDatabase
-        }
-
-        fun destroyInstance() {
-            instance = null
         }
     }
 }

@@ -43,7 +43,6 @@ class UpcomingDataSource(private val service: HttpService) : PageKeyedDataSource
 
             override fun onFailure(call: Call<UpcomingResults>, t: Throwable) {
                 Log.d("FLMWG", "onFailure upcomingMovies", t)
-                callback?.onError(t)
             }
         })
     }

@@ -18,16 +18,16 @@ interface CineDao {
     @Delete
     fun deleteFavorite(movie: UpcomingMovie)
 
-    @Query("SELECT * FROM $TABLE_FAVORITE")
+    @Query("SELECT * FROM favorite")
     fun loadFavorite(): LiveData<List<UpcomingMovie>>
 
-    @Query("SELECT * FROM $TABLE_FAVORITE WHERE id LIKE :id")
-    fun movieById(id: Int): List<UpcomingMovie>
+    @Query("SELECT * FROM favorite WHERE id = :id")
+    fun movieById(id: Int): UpcomingMovie?
 
     @Insert(onConflict = REPLACE)
     fun saveGenre(genres: List<Genre>)
 
-    @Query("SELECT * FROM $TABLE_GENRE")
+    @Query("SELECT * FROM genre")
     fun loadGenre(): LiveData<List<Genre>>
 
 }

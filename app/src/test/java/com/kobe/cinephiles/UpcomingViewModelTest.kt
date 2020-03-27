@@ -25,8 +25,16 @@ class UpcomingViewModelTest {
     private val mockedDataSource = mock<UpcomingDataSourceFactory>()
 
     private val anMovieId = Random().nextInt()
-    private val anMovie = UpcomingMovie(id = anMovieId, title = "The Kobe", poster_path = "https://",
-        genre_ids = emptyList(), vote_average = 7.1f, release_date = "2020/03/18")
+    private val anMovie = UpcomingMovie(
+        id = -1,
+        title = "The Kobe",
+        poster_path = "https://",
+        backdrop_path = "",
+        overview = "",
+        genre_ids = emptyList(),
+        vote_average = 7.1f,
+        vote_count = 1,
+        release_date = "2020/03/18")
 
     @Before
     fun before_each_test() {

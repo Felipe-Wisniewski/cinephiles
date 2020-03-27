@@ -1,14 +1,19 @@
 package com.kobe.cinephiles.repository.room
 
+import android.util.Log
 import androidx.room.TypeConverter
 
 class Converters {
 
     @TypeConverter
     fun stringToList(value: String): List<Int> {
-        val listString = value.split(',')
         val listInt = mutableListOf<Int>()
-        listString.forEach { s -> listInt.add(s.toInt()) }
+
+        if (value != "") {
+            val listString = value.split(',')
+            listString.forEach { s -> listInt.add(s.toInt()) }
+        }
+
         return listInt
     }
 

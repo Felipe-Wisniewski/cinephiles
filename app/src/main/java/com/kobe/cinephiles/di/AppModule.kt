@@ -13,7 +13,7 @@ val appModule = module {
 
     single {
         val retrofit = HttpServiceImpl.getService()
-        val cineDao = CineDatabase.getDataBase(context = get()).cineDao()
+        val cineDao = CineDatabase.getInstance(context = get()).cineDao
         MovieRepositoryImpl(service = retrofit, cineDao = cineDao) as MovieRepository
     }
 

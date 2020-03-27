@@ -52,6 +52,9 @@ dependencies {
     //Material Design
     implementation "com.google.android.material:material:$material_design_version"
 
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+
     //RecyclerView
     implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
 
@@ -82,6 +85,7 @@ dependencies {
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
     testImplementation "org.assertj:assertj-core:$assertj_core_version"
 
+    androidTestImplementation "androidx.arch.core:core-testing:$android_arch_test"
     androidTestImplementation "androidx.test:rules:$test_rules_version"
     androidTestImplementation "androidx.test.ext:junit:$test_ext_junit_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"

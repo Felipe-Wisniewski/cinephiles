@@ -25,7 +25,7 @@ class MovieRepositoryImpl(private val service: HttpService,
     }
 
     override fun isFavorite(movie: UpcomingMovie): Boolean {
-        return cineDao.movieById(movie.id).isNotEmpty()
+        return cineDao.movieById(movie.id) != null
     }
 
     override fun deleteFavorite(movie: UpcomingMovie) {
