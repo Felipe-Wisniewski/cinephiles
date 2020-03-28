@@ -47,8 +47,6 @@ class UpcomingListWebFragment : UpcomingListBaseFragment() {
 
     private fun loadMovies() {
         viewModel.getMoviesUpcoming().observe(viewLifecycleOwner, Observer { movies ->
-            Log.d("FLMWG", "movies.isDetached - ${movies.isDetached}")
-            Log.d("FLMWG", "movies.isImmutable - ${movies.isImmutable}")
             upcomingAdapter.submitList(movies)
         })
     }

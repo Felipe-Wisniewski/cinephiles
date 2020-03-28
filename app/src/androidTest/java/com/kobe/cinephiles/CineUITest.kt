@@ -2,23 +2,33 @@ package com.kobe.cinephiles
 
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.Espresso.pressBack
+import androidx.room.Room
+import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.swipeLeft
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem
-import androidx.test.espresso.contrib.RecyclerViewActions.scrollTo
+import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.contrib.RecyclerViewActions.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
+import com.kobe.cinephiles.model.UpcomingMovie
+import com.kobe.cinephiles.repository.MovieRepository
+import com.kobe.cinephiles.repository.MovieRepositoryImpl
+import com.kobe.cinephiles.repository.retrofit.HttpServiceImpl
+import com.kobe.cinephiles.repository.room.CineDatabase
 import com.kobe.cinephiles.repository.room.DATABASE_NAME
 import com.kobe.cinephiles.view.MainActivity
+import com.kobe.cinephiles.view.upcoming.UpcomingAdapterWeb
+import okhttp3.internal.wait
 import org.hamcrest.core.Is.`is`
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.context.loadKoinModules
+import org.koin.dsl.module
 
 @RunWith(AndroidJUnit4::class)
 class CineUITest {
@@ -26,34 +36,80 @@ class CineUITest {
     @get:Rule
     var activityRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)
 
-    @Before
-    fun setUp() {
-        activityRule.activity.deleteDatabase(DATABASE_NAME)
+    private val tagRecyclerWeb = "web"
+    private val tagRecyclerFav = "fav"
+    private val movieTitleToBeClicked = "My Spy"
+
+    init {
+        loadKoinModules(module {
+
+            single(override = true) {
+                val retrofit = HttpServiceImpl.getService()
+
+                val db = Room.inMemoryDatabaseBuilder(
+                        InstrumentationRegistry.getInstrumentation().context,
+                        CineDatabase::class.java)
+                    .allowMainThreadQueries()
+                    .build()
+
+                MovieRepositoryImpl(retrofit, db.cineDao)
+            }
+        })
     }
 
+    /*@Before
+    fun setUp() {
+        activityRule.activity.deleteDatabase(DATABASE_NAME)
+    }*/
+
     @Test
-    fun test_add_favorite() {
-        val tagRecyclerWeb = "web"
-        val tagRecyclerFav = "fav"
-        val movieTitleToBeClicked = "Dolittle"
+    fun add_favorite_and_remove_favorite() {
+        test_add_favorite()
+        remove_favorite()
+    }
 
-        onView(withTagValue(`is`(tagRecyclerWeb as Any))).perform(scrollTo<RecyclerView.ViewHolder>(
-            hasDescendant(withText(movieTitleToBeClicked))
-        ))
+    private fun test_add_favorite() {
+        onView(withTagValue(`is`(tagRecyclerWeb as Any)))
+            .perform(scrollTo<UpcomingAdapterWeb.VH>(hasDescendant(withText(movieTitleToBeClicked))))
 
-        onView(withTagValue(`is`(tagRecyclerWeb as Any))).perform(actionOnItem<RecyclerView.ViewHolder>(
-            hasDescendant(withText(movieTitleToBeClicked)),
-            click()
-        ))
+        onView(withTagValue(`is`(tagRecyclerWeb as Any)))
+            .perform(actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText(movieTitleToBeClicked)), click()))
 
-//        onView(withId(R.id.txtTitleMovieDetails)).check(matches(withText(movieTitleToBeClicked)))
+        onView(withId(R.id.txtTitleMovie))
+            .check(matches(withText(movieTitleToBeClicked)))
 
-        onView(withId(R.id.fabFavorite)).perform(click())
+        onView(withId(R.id.fabFavorite))
+            .perform(click())
 
         pressBack()
 
-        onView(withId(R.id.viewPager)).perform(swipeLeft())
+        onView(withId(R.id.viewPager))
+            .perform(swipeLeft())
 
-        onView(withTagValue(`is`(tagRecyclerFav as Any))).check(matches(hasDescendant(withText(movieTitleToBeClicked))))
+        onView(withTagValue(`is`(tagRecyclerFav as Any)))
+            .check(matches(hasDescendant(withText(movieTitleToBeClicked))))
+
+        pressBack()
+        pressBack()
+    }
+
+    private fun remove_favorite() {
+        onView(withId(R.id.viewPager))
+            .perform(swipeLeft())
+
+        onView(withTagValue(`is`(tagRecyclerFav as Any)))
+            .check(matches(hasDescendant(withText(movieTitleToBeClicked))))
+
+        onView(withTagValue(`is`(tagRecyclerFav as Any)))
+            .perform(actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText(movieTitleToBeClicked)), click()))
+
+        onView(withId(R.id.txtTitleMovie))
+            .check(matches(withText(movieTitleToBeClicked)))
+
+        onView(withId(R.id.fabFavorite))
+            .perform(click())
+
+        onView(withTagValue(`is`(tagRecyclerFav as Any)))
+            .check(matches(hasDescendant(withText(movieTitleToBeClicked))))
     }
 }
